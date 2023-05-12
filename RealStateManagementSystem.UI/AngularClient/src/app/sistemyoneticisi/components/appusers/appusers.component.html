@@ -1,0 +1,225 @@
+<!-- <h1 style="color: sienna; text-shadow: 2px 2px 4px grey;" class="text-center">KULLANICI İŞLEMLERİ</h1>
+<div class="card-body">
+  <form [formGroup]="frm" autocomplete="on" (ngSubmit) = "onSubmit(frm.value)">
+    <div class="d-flex justify-content-between">
+      <div style="margin-left: 300px; flex-direction: column;">
+        <div class="mb-4">
+          <input style="width:400px;" formControlName="name" size="30" type="text" class="form-control" placeholder="İsim" [ngClass]="{'is-invalid': f.name.errors}" #txtName>
+          <small class="form-text text-muted" *ngIf="f.name.errors?.required && submitted" >Lütfen isim alanını boş geçmeyiniz.</small>
+          <small class="form-text text-muted" *ngIf="(f.name.errors?.maxlength || f.name.errors?.minlenght) && submitted" >Lütfen isim alanını 5 ile 100 karakter arasında giriniz.</small>
+        </div>
+        <div class="mb-4">
+          <input style="width:400px" formControlName="surname" size="30" type="text" class="form-control" placeholder="Soyad" [ngClass]="{'is-invalid': f.surname.errors}" #txtSurname>
+          <small class="form-text text-muted" *ngIf="f.surname.errors?.required && submitted" >Lütfen soyad alanını boş geçmeyiniz.</small>
+          <small class="form-text text-muted" *ngIf="(f.surname.errors?.maxlength || f.surname.errors?.minlenght) && submitted" >Lütfen soyad alanını 5 ile 100 karakter arasında giriniz.</small>
+        </div>
+        <div class="mb-4">
+          <input style="width:400px" formControlName="email" size="30" type="text" class="form-control" placeholder="E-mail" [ngClass]="{'is-invalid': f.email.errors}" #txtEmail>
+          <small class="form-text text-muted" *ngIf="f.email.errors?.required && submitted" >Lütfen email alanını boş geçmeyiniz.</small>
+          <small class="form-text text-muted" *ngIf="(f.email.errors?.maxlength || f.email.errors?.minlenght)  && submitted" >Lütfen email alanını 10 ile 100 karakter arasında giriniz.</small>
+          <small class="form-text text-muted" *ngIf="f.email.errors?.email && submitted" >Lütfen email alanını doğru giriniz.</small>
+        </div>
+        <div class="mb-4">
+          <input style="width:400px" formControlName="password" size="30" type="text" class="form-control" placeholder="Parola" [ngClass]="{'is-invalid': f.password.errors}" #txtPassword>
+          <small class="form-text text-muted" *ngIf="f.password.errors?.required && submitted" >Lütfen parola alanını boş geçmeyiniz. Lütfen parola alanını 8 ile 100 karakter <br> arasında ayrıca 1 özel karakter, 1 rakam ve 1 harf barındıracak şekilde giriniz.</small>
+          <small class="form-text text-muted" *ngIf="(f.password.errors?.maxlength || f.password.errors?.minlenght || f.password.errors?.requiredPattern) && submitted" >Lütfen parola alanını 8 ile 100 karakter arasında ayrıca 1 özel karakter, 1 rakam ve 1 harf barındıracak şekilde giriniz.</small>
+        </div>
+        <div class="mb-4">
+            <select formControlName="roles" class="form-control" style="width:400px" [ngClass]="{'is-invalid': f.roles.errors}">
+              <option value="" disabled selected hidden>Lütfen rol seçimi yapınız</option>
+              <option *ngFor="let role of roles" [ngValue]="role.id">{{role.name}}</option>
+            </select>
+            <small class="form-text text-muted" *ngIf="f.roles.errors?.required && submitted" >Lütfen rol alanını boş geçmeyiniz.</small>
+        </div>
+      </div>
+      <div style="margin-right: 300px; flex-direction: row;">
+        <textarea style="width:400px; height: 280px;" type="text" formControlName="address" class="form-control" [ngClass]="{'is-invalid': f.address.errors}" placeholder="Adres" #txtAddress></textarea>
+        <small class="form-text text-muted" *ngIf="f.address.errors?.required && submitted" >Lütfen adres alanını boş geçmeyiniz.</small>
+        <small class="form-text text-muted" *ngIf="(f.address.errors?.maxlength || f.address.errors?.minlenght) && submitted" >Lütfen adres alanını 8 ile 100 karakter arasında giriniz.</small>
+      </div>
+    </div>
+    <div class="d-flex mt-4" style="justify-content: center;">
+      <div>
+        <button type="submit" class="btn {{editMode? 'btn-warning' : 'btn-success'}}" style="font-weight:bold; width: 392px;">
+        {{editMode? 'GÜNCELLE' : 'EKLE'}}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="container">
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" id="excel-table">
+
+    <ng-container matColumnDef="id">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> 
+        Seçim
+      </th>
+      <td mat-cell *matCellDef="let element">  
+        <mat-checkbox (change)="onElementSelected($event,element)"></mat-checkbox> 
+      </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="name">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> İsim </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="surname">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Soyisim </th>
+      <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="email">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Email Adresi </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="role">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Rolü </th>
+      <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="address">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Adresi </th>
+      <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="edit">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Güncelle </th>
+      <td mat-cell *matCellDef="let element"> <img src="../../../../assets/edit.png" style="width: 30px; height: 30px; cursor: pointer;" (click)="onEdit(element.id)"/> </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="delete">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Sil </th>
+      <td mat-cell *matCellDef="let element" appDelete [id]="element.id" (callBack)="pageChanged()" controller = "AppUser" action ="Delete" ></td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <input type="text" class="form-control mt-2" style="position:absolute; float: left; margin-left: 780px; width: 320px;" placeholder="Aranacak kelimeyi küçük harflerle giriniz..." (keyup)="filterData($event)"/>
+  <button type="button" class="btn btn-primary mt-2" (click)="excel()" style="position:absolute; float: left; margin-left: 20px; color:white; font-weight: bold;"> RAPORLA </button>
+  <mat-paginator (page) ="pageChanged()" style="display: flex; justify-content: center;" [pageSizeOptions]="[5, 10, 20, 50, 100, 1000]" showFirstLastButtons></mat-paginator>
+</div>
+</div> -->
+
+<div class="card">
+  <div class="card-header d-flex">
+    <h1 class="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" style="margin-left: 20px;">KULLANICI İŞLEMLERİ</h1>
+    <input type="text" class="form-control mt-2" style="position:absolute; float: left; margin-left: 1180px; width: 320px; border: 3px solid lightslategray;" placeholder="Aranacak kelimeyi küçük harflerle giriniz..." (keyup)="filterData($event)"/>
+  </div>
+  <div class="card-body">
+    <div class="container">
+        <form style="background-color:white; margin-top: 5px; border-radius: 25px; box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);" [formGroup]="frm" autocomplete="on" (ngSubmit) = "onSubmit(frm.value)">
+          <div class="d-flex justify-content-between">
+            <div style="margin-left: 100px; margin-right: 100px; margin-top: 25px; flex-direction: column;">
+              <div class="mb-4">
+                <input style="width:400px;" formControlName="name" size="30" type="text" class="form-control bg-light" placeholder="İsim" [ngClass]="{'is-invalid': f.name.errors}" #txtName>
+                <small class="form-text text-muted" *ngIf="f.name.errors?.required && submitted" >Lütfen isim alanını boş geçmeyiniz.</small>
+                <small class="form-text text-muted" *ngIf="(f.name.errors?.maxlength || f.name.errors?.minlenght) && submitted" >Lütfen isim alanını 5 ile 100 karakter arasında giriniz.</small>
+              </div>
+              <div class="mb-4">
+                <input style="width:400px;" formControlName="surname" size="30" type="text" class="form-control bg-light" placeholder="Soyad" [ngClass]="{'is-invalid': f.surname.errors}" #txtSurname>
+                <small class="form-text text-muted" *ngIf="f.surname.errors?.required && submitted" >Lütfen soyad alanını boş geçmeyiniz.</small>
+                <small class="form-text text-muted" *ngIf="(f.surname.errors?.maxlength || f.surname.errors?.minlenght) && submitted" >Lütfen soyad alanını 5 ile 100 karakter arasında giriniz.</small>
+              </div>
+              <div class="mb-4">
+                <input style="width:400px;" formControlName="email" size="30" type="text" class="form-control bg-light" placeholder="E-mail" [ngClass]="{'is-invalid': f.email.errors}" #txtEmail>
+                <small class="form-text text-muted" *ngIf="f.email.errors?.required && submitted" >Lütfen email alanını boş geçmeyiniz.</small>
+                <small class="form-text text-muted" *ngIf="(f.email.errors?.maxlength || f.email.errors?.minlenght)  && submitted" >Lütfen email alanını 10 ile 100 karakter arasında giriniz.</small>
+                <small class="form-text text-muted" *ngIf="f.email.errors?.email && submitted" >Lütfen email alanını doğru giriniz.</small>
+              </div>
+              <div class="mb-4">
+                <input style="width:400px;" formControlName="password" size="30" type="text" class="form-control bg-light" placeholder="Parola" [ngClass]="{'is-invalid': f.password.errors}" #txtPassword>
+                <small class="form-text text-muted" *ngIf="f.password.errors?.required && submitted" >Lütfen parola alanını boş geçmeyiniz. Lütfen parola alanını 8 ile 100 karakter <br> arasında ayrıca 1 özel karakter, 1 rakam ve 1 harf barındıracak şekilde giriniz.</small>
+                <small class="form-text text-muted" *ngIf="(f.password.errors?.maxlength || f.password.errors?.minlenght || f.password.errors?.requiredPattern) && submitted" >Lütfen parola alanını 8 ile 100 karakter arasında ayrıca 1 özel karakter, 1 rakam ve 1 harf barındıracak şekilde giriniz.</small>
+              </div>
+              <div class="mb-4">
+                  <select formControlName="roles" class="form-control bg-light" style="width:400px;" [ngClass]="{'is-invalid': f.roles.errors}">
+                    <option value="" disabled selected hidden>Lütfen rol seçimi yapınız</option>
+                    <option *ngFor="let role of roles" [ngValue]="role.id">{{role.name}}</option>
+                  </select>
+                  <small class="form-text text-muted" *ngIf="f.roles.errors?.required && submitted" >Lütfen rol alanını boş geçmeyiniz.</small>
+              </div>
+            </div>
+            <div style="margin-right: 200px; flex-direction: row;">
+              <textarea style="width:400px; background-color: whitesmoke; height: 280px; margin-top: 25px;" type="text" formControlName="address" class="form-control" [ngClass]="{'is-invalid': f.address.errors}" placeholder="Adres" #txtAddress></textarea>
+              <small class="form-text text-muted" *ngIf="f.address.errors?.required && submitted" >Lütfen adres alanını boş geçmeyiniz.</small>
+              <small class="form-text text-muted" *ngIf="(f.address.errors?.maxlength || f.address.errors?.minlenght) && submitted" >Lütfen adres alanını 8 ile 100 karakter arasında giriniz.</small>
+            </div>
+          </div>
+          <div class="d-flex mt-4" style="justify-content: center;">
+          <div>
+              <button type="submit" class="btn {{editMode? 'btn-warning' : 'btn-success'}} mb-4" style="font-weight:bold; width: 392px;">
+              {{editMode? 'GÜNCELLE' : 'EKLE'}}
+              </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="card-footer">
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" id="excel-table">
+      
+          <ng-container matColumnDef="id">
+            <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> 
+              Seçim
+            </th>
+            <td mat-cell *matCellDef="let element">  
+              <mat-checkbox (change)="onElementSelected($event,element)"></mat-checkbox> 
+            </td>
+          </ng-container>
+      
+          <ng-container  matColumnDef="name">
+            <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> İsim </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+      
+          <ng-container  matColumnDef="surname">
+            <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Soyisim </th>
+            <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
+          </ng-container>
+      
+          <ng-container  matColumnDef="email">
+            <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Email Adresi </th>
+            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+          </ng-container>
+      
+          <ng-container  matColumnDef="role">
+            <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Rolü </th>
+            <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+          </ng-container>
+      
+          <ng-container  matColumnDef="address">
+            <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Adresi </th>
+            <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+          </ng-container>
+      
+          <ng-container  matColumnDef="edit">
+            <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Güncelle </th>
+            <td mat-cell *matCellDef="let element"> <img src="../../../../assets/edit.png" style="width: 30px; height: 30px; cursor: pointer;" (click)="onEdit(element.id)"/> </td>
+          </ng-container>
+      
+          <ng-container  matColumnDef="delete">
+            <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Sil </th>
+            <td mat-cell *matCellDef="let element" appDelete [id]="element.id" (callBack)="pageChanged()" controller = "AppUser" action ="Delete" ></td>
+          </ng-container>
+      
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <button type="button" class="btn btn-primary mt-2" (click)="excel()" style="position:absolute; float: left; margin-left: 20px; color:white; font-weight: bold;"> RAPORLA </button>
+        <mat-paginator (page) ="pageChanged()" style="display: flex; justify-content: center;" [pageSizeOptions]="[5, 10, 20, 50, 100, 1000]" showFirstLastButtons></mat-paginator>
+      </div>
+      </div>
+</div>
+
+
+
+
+

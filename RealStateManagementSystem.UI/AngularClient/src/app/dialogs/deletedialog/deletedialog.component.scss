@@ -1,0 +1,16 @@
+/* Butonları stilize et */
+button.mat-button {
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 16px;
+    transition: background-color 0.2s ease;
+  }
+  
+  
+  /* Butonlar arasındaki mesafeyi ayarla */
+  div.mat-dialog-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }

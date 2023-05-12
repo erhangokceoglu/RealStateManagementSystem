@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Dikkat!</h1>
+<div mat-dialog-content>
+  <p>Silmek istediğinize emin misiniz?</p>
+</div>
+<div mat-dialog-actions>
+  <button style="background-color: #F9E79F; color: #333; margin-right: 20px;" mat-button (click)="close()">İptal</button>
+  <button style="background-color: #82E0AA; color: #333; margin-left: 20px;" mat-button [mat-dialog-close]="data" cdkFocusInitial>Evet</button>
+</div>

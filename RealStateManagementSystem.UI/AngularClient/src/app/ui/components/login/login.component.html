@@ -1,0 +1,127 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+	<title>Login Sayfası</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<style>
+		.login-form {
+			width: 340px;
+			margin: 50px auto;
+			font-size: 15px;
+		}
+		.login-form form {
+			margin-bottom: 15px;
+			background: #f7f7f7;
+			box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+			padding: 30px;
+		}
+		.login-form h2 {
+			margin: 0 0 15px;
+		}
+		.form-control, .btn {
+			min-height: 38px;
+			border-radius: 2px;
+		}
+		.btn {
+			font-size: 15px;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<div class="login-form">
+		<form #form='ngForm' (submit)="OnSubmit(form)">
+			<h2 class="text-center">Giriş Yap</h2>
+				<div class="form-group">
+					<input type="email" class="form-control" placeholder="E-posta" required="required" #email="ngModel" name="Email" [(ngModel)]="formModel.Email">
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" placeholder="Şifre" required="required" #password="ngModel" name="Password" [(ngModel)]="formModel.Password">
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-primary btn-block">Giriş Yap</button>
+				</div>
+		</form>
+	</div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>Material Design for Bootstrap</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" />
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
+    <!-- MDB -->
+    <link rel="stylesheet" href="/src/mdb.min.css" />
+</head>
+<body>
+      <!--Main Navigation-->
+  <header>
+    <style>
+      #intro {
+        background-image: url(https://mdbootstrap.com/img/new/fluid/city/008.jpg);
+        height: 100.3vh;
+      }
+
+      /* Height for devices larger than 576px */
+      @media (min-width: 992px) {
+        #intro {
+          margin-top: -58.59px;
+        }
+      }
+
+      .navbar .nav-link {
+        color: #fff !important;
+      }
+    </style>
+
+    <!-- Background image -->
+    <div id="intro" class="bg-image shadow-2-strong">
+      <div class="mask d-flex align-items-center h-100" style="background-color: rgba(0, 0, 0, 0.8);">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-5 col-md-8">
+              <form class="bg-white rounded shadow-5-strong p-5" #form='ngForm' (submit)="OnSubmit(form)">
+
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                  <input type="email" class="form-control" placeholder="E-posta" required="required" #email="ngModel" name="Email" [(ngModel)]="formModel.Email" />
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                  <input type="password" class="form-control" placeholder="Şifre" required="required" #password="ngModel" name="Password" [(ngModel)]="formModel.Password" />
+                </div>
+
+                <div class="row mb-4">
+                  <div class="col text-center">
+                    <!-- Simple link -->
+                    <a href="#!">Şifremi Unuttum ?</a>
+                  </div>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block">GİRİŞ YAP</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Background image -->
+  </header>
+  <!--Main Navigation-->
+    <script type="text/javascript" src="/src/mdb.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand navbar-dark bg-secondary">
+    <a class="navbar-brand" routerLink="">Taşınmaz Yönetim Sistemi</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample02">
+      <ul class="navbar-nav mr-auto">
+        <!-- <li class="nav-item">
+          <a class="nav-link" style="cursor: pointer; color: beige; font-weight: bold;" routerLink = "">ANASAYFA<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="cursor: pointer; color: beige; font-weight: bold;" routerLink = "userrealstates">MEVCUT TAŞINMAZLAR</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="cursor: pointer; color: beige; font-weight: bold;" routerLink = "login" *ngIf="!authService.isAuthenticated">GİRİŞ YAP</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="cursor: pointer; color: beige; font-weight: bold;" routerLink = "sistemyoneticisi" *ngIf="authService.isAuthenticated">ADMİN</a>
+        </li> -->
+        <!-- <li class="nav-item">
+          <a class="nav-link" style="cursor: pointer; color: beige; font-weight: bold;" (click)="signOut()" *ngIf="authService.isAuthenticated" routerLink = "">ÇIKIŞ YAP</a>
+        </li> -->
+      </ul>
+      <form class="form-inline my-2 my-md-0">
+        <input class="form-control" type="text" placeholder="Search">
+      </form>
+    </div>
+  </nav>
+
+
+
+<router-outlet></router-outlet>
+

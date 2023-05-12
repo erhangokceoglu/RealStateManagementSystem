@@ -1,0 +1,265 @@
+<!-- <h1 style="color:sienna" class="text-center">TAŞINMAZ İŞLEMLERİ</h1>
+<div class="card-body">
+  <form [formGroup]="frm" autocomplete="on" (ngSubmit) = "onSubmit(frm.value)">
+    <div class="d-flex justify-content-between">
+      <div style="flex-direction: column; margin-left: 200px;">
+        <div class="mb-4">
+          <select formControlName="provinces" class="form-control" style="width:400px;" [ngClass]="{'is-invalid': f.provinces.errors}" (change)="onChangeProvinces($event.target.value)">
+            <option value="" disabled selected hidden>Lütfen il seçimi yapınız</option>
+            <option *ngFor="let province of provinces" [value]="province.id">{{province.name}}</option>
+          </select>
+          <small class="form-text text-muted" *ngIf="f.provinces.errors?.required && submitted" >Lütfen il alanını boş geçmeyiniz.</small>
+        </div>
+        <div class="mb-4">
+          <select formControlName="districts" class="form-control" style="width:400px;" [ngClass]="{'is-invalid': f.districts.errors}" (change)="onChangeDistricts($event.target.value)">
+            <option value="" disabled selected hidden>Lütfen ilçe seçimi yapınız</option>
+            <option *ngFor="let district of districts" [value]="district.id">{{district.name}}</option>
+          </select>
+          <small class="form-text text-muted" *ngIf="f.districts.errors?.required && submitted" >Lütfen ilçe alanını boş geçmeyiniz.</small>
+        </div>
+        <div class="mb-4">
+          <select formControlName="neighbourhoods" class="form-control" style="width:400px;" [ngClass]="{'is-invalid': f.neighbourhoods.errors} ">
+            <option value="" disabled selected hidden>Lütfen mahalle seçimi yapınız</option>
+            <option *ngFor="let neighbourhood of neighbourhoods" [value]="neighbourhood.id">{{neighbourhood.name}}</option>
+          </select>
+          <small class="form-text text-muted" *ngIf="f.neighbourhoods.errors?.required && submitted" >Lütfen mahalle alanını boş geçmeyiniz.</small>
+        </div>
+      </div>
+      <div style="flex-direction: column;">
+        <div class="mb-4">
+          <input style="width:400px;" formControlName="islandNo" size="30" type="text" class="form-control" placeholder="Ada" [ngClass]="{'is-invalid': f.islandNo.errors}" #txtislandNo>
+          <small class="form-text text-muted" *ngIf="f.islandNo.errors?.required && submitted" >Lütfen ada alanını boş geçmeyiniz.</small>
+          <small class="form-text text-muted" *ngIf="(f.islandNo.errors?.maxlength) && submitted" >Lütfen ada alanını 1 ile 100 karakter arasında karakter giriniz.</small>
+        </div>
+        <div class="mb-4">
+          <input style="width:400px;" formControlName="parcelNo" size="30" type="text" class="form-control" placeholder="Parsel" [ngClass]="{'is-invalid': f.parcelNo.errors}" #txtParcelNo>
+          <small class="form-text text-muted" *ngIf="f.parcelNo.errors?.required && submitted" >Lütfen parsel alanını boş geçmeyiniz.</small>
+          <small class="form-text text-muted" *ngIf="(f.parcelNo.errors?.maxlength)  && submitted" >Lütfen parsel alanını 1 ile 100 karakter arasında giriniz.</small>
+        </div>
+        <div class="mb-4">
+          <select formControlName="qualifications" class="form-control" style="width:400px;" [ngClass]="{'is-invalid': f.qualifications.errors}">
+            <option value="" disabled selected hidden>Lütfen nitelik seçimi yapınız</option>
+            <option *ngFor="let qualification of qualifications" [value]="qualification.id">{{qualification.name}}</option>
+          </select>
+          <small class="form-text text-muted" *ngIf="f.qualifications.errors?.required && submitted" >Lütfen nitelik alanını boş geçmeyiniz.</small>
+        </div>
+      </div>
+      <div style="flex-direction: row; margin-right: 200px;">
+        <textarea style="width:400px; height: 162px;" type="text" formControlName="address" class="form-control" [ngClass]="{'is-invalid': f.address.errors}" placeholder="Adres" #txtAddress></textarea>
+        <small class="form-text text-muted" *ngIf="f.address.errors?.required && submitted" >Lütfen adres alanını boş geçmeyiniz.</small>
+        <small class="form-text text-muted" *ngIf="(f.address.errors?.maxlength || f.address.errors?.minlenght) && submitted" >Lütfen adres alanını 8 ile 100 karakter arasında giriniz.</small>
+      </div>
+    </div>
+    <div class="d-flex mt-4" style="justify-content: center;">
+      <div>
+        <button type="submit" class="btn {{editMode? 'btn-warning' : 'btn-success'}}" style="font-weight:bold; width: 392px;">
+        {{editMode? 'GÜNCELLE' : 'EKLE'}}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="container">
+<div class="mat-elevation-z8" >
+  <table mat-table [dataSource]="dataSource" id="excel-table">
+
+    <ng-container matColumnDef="id">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> 
+        Seçim
+      </th>
+      <td mat-cell *matCellDef="let element">  
+        <mat-checkbox (change)="onElementSelected($event,element)"></mat-checkbox> 
+      </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="province">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> İl </th>
+      <td mat-cell *matCellDef="let element"> {{element.province}} </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="district">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> İlçe </th>
+      <td mat-cell *matCellDef="let element"> {{element.district}} </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="neighbourhood">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Mahalle </th>
+      <td mat-cell *matCellDef="let element"> {{element.neighbourhood}} </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="islandNo">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Ada </th>
+      <td mat-cell *matCellDef="let element"> {{element.islandNo}} </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="parcelNo">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Parsel </th>
+      <td mat-cell *matCellDef="let element"> {{element.parcelNo}} </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="qualification">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef > Nitelik </th>
+      <td mat-cell *matCellDef="let element"> {{element.qualification}} </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="address">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Adres </th>
+      <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="edit">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Güncelle </th>
+      <td mat-cell *matCellDef="let element"> <img src="../../../../assets/edit.png" style="width: 30px; height: 30px; cursor: pointer;" (click)="onEdit(element.id)"/> </td>
+    </ng-container>
+
+    <ng-container  matColumnDef="delete">
+      <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Sil </th>
+      <td mat-cell *matCellDef="let element" appDelete [id]="element.id" (callBack)="pageChanged()" controller = "RealState" action ="Delete" ></td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <input type="text" class="form-control mt-2" style="position:absolute; float: left; margin-left: 780px; width: 320px;" placeholder="Aranacak kelimeyi küçük harflerle giriniz..." (keyup)="filterData($event)"/>
+  <button type="button" class="btn btn-primary mt-2" (click)="excel()" style="position:absolute; float: left; margin-left: 20px; color:white; font-weight: bold;"> RAPORLA </button>
+  <mat-paginator (page) ="pageChanged()" style="display: flex; justify-content: center;" [pageSizeOptions]="[5, 10, 20, 50, 100, 1000]" showFirstLastButtons></mat-paginator>
+</div>
+</div> -->
+
+<div class="card">
+  <div class="card-header d-flex">
+    <h1 class="text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);" style="margin-left: 20px;">TAŞINMAZ İŞLEMLERİ</h1>
+    <input type="text" class="form-control mt-2" style="position:absolute; float: left; margin-left: 1180px; width: 320px; border: 3px solid lightslategray;" placeholder="Aranacak kelimeyi küçük harflerle giriniz..." (keyup)="filterData($event)"/>
+  </div>
+  <div class="card-body">
+    <form style="background-color:white; margin-top: 5px; border-radius: 25px; box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);" [formGroup]="frm" autocomplete="on" (ngSubmit) = "onSubmit(frm.value)">
+      <div class="d-flex justify-content-between">
+        <div style="flex-direction: column; margin-left: 60px; margin-right: 100px; margin-top: 25px;">
+          <div class="mb-4">
+            <select formControlName="provinces" class="form-control bg-light" style="width:400px;" [ngClass]="{'is-invalid': f.provinces.errors}" (change)="onChangeProvinces($event.target.value)">
+              <option value="" disabled selected hidden>Lütfen il seçimi yapınız</option>
+              <option *ngFor="let province of provinces" [value]="province.id">{{province.name}}</option>
+            </select>
+            <small class="form-text text-muted" *ngIf="f.provinces.errors?.required && submitted" >Lütfen il alanını boş geçmeyiniz.</small>
+          </div>
+          <div class="mb-4">
+            <select formControlName="districts" class="form-control bg-light" style="width:400px;" [ngClass]="{'is-invalid': f.districts.errors}" (change)="onChangeDistricts($event.target.value)">
+              <option value="" disabled selected hidden>Lütfen ilçe seçimi yapınız</option>
+              <option *ngFor="let district of districts" [value]="district.id">{{district.name}}</option>
+            </select>
+            <small class="form-text text-muted" *ngIf="f.districts.errors?.required && submitted" >Lütfen ilçe alanını boş geçmeyiniz.</small>
+          </div>
+          <div class="mb-4">
+            <select formControlName="neighbourhoods" class="form-control bg-light" style="width:400px;" [ngClass]="{'is-invalid': f.neighbourhoods.errors} ">
+              <option value="" disabled selected hidden>Lütfen mahalle seçimi yapınız</option>
+              <option *ngFor="let neighbourhood of neighbourhoods" [value]="neighbourhood.id">{{neighbourhood.name}}</option>
+            </select>
+            <small class="form-text text-muted" *ngIf="f.neighbourhoods.errors?.required && submitted" >Lütfen mahalle alanını boş geçmeyiniz.</small>
+          </div>
+        </div>
+        <div style="flex-direction: column; margin-top: 25px;">
+          <div class="mb-4">
+            <input style="width:400px;" formControlName="islandNo" size="30" type="text" class="form-control bg-light" placeholder="Ada" [ngClass]="{'is-invalid': f.islandNo.errors}" #txtislandNo>
+            <small class="form-text text-muted" *ngIf="f.islandNo.errors?.required && submitted" >Lütfen ada alanını boş geçmeyiniz.</small>
+            <small class="form-text text-muted" *ngIf="(f.islandNo.errors?.maxlength) && submitted" >Lütfen ada alanını 1 ile 100 karakter arasında karakter giriniz.</small>
+          </div>
+          <div class="mb-4">
+            <input style="width:400px;" formControlName="parcelNo" size="30" type="text" class="form-control bg-light" placeholder="Parsel" [ngClass]="{'is-invalid': f.parcelNo.errors}" #txtParcelNo>
+            <small class="form-text text-muted" *ngIf="f.parcelNo.errors?.required && submitted" >Lütfen parsel alanını boş geçmeyiniz.</small>
+            <small class="form-text text-muted" *ngIf="(f.parcelNo.errors?.maxlength)  && submitted" >Lütfen parsel alanını 1 ile 100 karakter arasında giriniz.</small>
+          </div>
+          <div class="mb-4">
+            <select formControlName="qualifications" class="form-control bg-light" style="width:400px;" [ngClass]="{'is-invalid': f.qualifications.errors}">
+              <option value="" disabled selected hidden>Lütfen nitelik seçimi yapınız</option>
+              <option *ngFor="let qualification of qualifications" [value]="qualification.id">{{qualification.name}}</option>
+            </select>
+            <small class="form-text text-muted" *ngIf="f.qualifications.errors?.required && submitted" >Lütfen nitelik alanını boş geçmeyiniz.</small>
+          </div>
+        </div>
+        <div style="flex-direction: row; margin-right: 200px; margin-left: 100px; margin-top: 25px;">
+          <textarea style="width:400px; height: 162px;" type="text" formControlName="address" class="form-control bg-light" [ngClass]="{'is-invalid': f.address.errors}" placeholder="Adres" #txtAddress></textarea>
+          <small class="form-text text-muted" *ngIf="f.address.errors?.required && submitted" >Lütfen adres alanını boş geçmeyiniz.</small>
+          <small class="form-text text-muted" *ngIf="(f.address.errors?.maxlength || f.address.errors?.minlenght) && submitted" >Lütfen adres alanını 8 ile 100 karakter arasında giriniz.</small>
+        </div>
+      </div>
+      <div class="d-flex mt-4" style="justify-content: center;">
+        <div>
+          <button type="submit" class="btn {{editMode? 'btn-warning' : 'btn-success'}} mb-4" style="font-weight:bold; width: 392px;">
+          {{editMode? 'GÜNCELLE' : 'EKLE'}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="card-footer">
+    <div class="mat-elevation-z8" >
+      <table mat-table [dataSource]="dataSource" id="excel-table">
+    
+        <ng-container matColumnDef="id">
+          <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> 
+            Seçim
+          </th>
+          <td mat-cell *matCellDef="let element">  
+            <mat-checkbox (change)="onElementSelected($event,element)"></mat-checkbox> 
+          </td>
+        </ng-container>
+    
+        <ng-container  matColumnDef="province">
+          <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> İl </th>
+          <td mat-cell *matCellDef="let element"> {{element.province}} </td>
+        </ng-container>
+    
+        <ng-container  matColumnDef="district">
+          <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> İlçe </th>
+          <td mat-cell *matCellDef="let element"> {{element.district}} </td>
+        </ng-container>
+    
+        <ng-container  matColumnDef="neighbourhood">
+          <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Mahalle </th>
+          <td mat-cell *matCellDef="let element"> {{element.neighbourhood}} </td>
+        </ng-container>
+    
+        <ng-container  matColumnDef="islandNo">
+          <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Ada </th>
+          <td mat-cell *matCellDef="let element"> {{element.islandNo}} </td>
+        </ng-container>
+    
+        <ng-container  matColumnDef="parcelNo">
+          <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Parsel </th>
+          <td mat-cell *matCellDef="let element"> {{element.parcelNo}} </td>
+        </ng-container>
+    
+        <ng-container  matColumnDef="qualification">
+          <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef > Nitelik </th>
+          <td mat-cell *matCellDef="let element"> {{element.qualification}} </td>
+        </ng-container>
+    
+        <ng-container  matColumnDef="address">
+          <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Adres </th>
+          <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+        </ng-container>
+    
+        <ng-container  matColumnDef="edit">
+          <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Güncelle </th>
+          <td mat-cell *matCellDef="let element"> <img src="../../../../assets/edit.png" style="width: 30px; height: 30px; cursor: pointer;" (click)="onEdit(element.id)"/> </td>
+        </ng-container>
+    
+        <ng-container  matColumnDef="delete">
+          <th style="font-size: large; color: sienna;" mat-header-cell *matHeaderCellDef> Sil </th>
+          <td mat-cell *matCellDef="let element" appDelete [id]="element.id" (callBack)="pageChanged()" controller = "RealState" action ="Delete" ></td>
+        </ng-container>
+    
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <button type="button" class="btn btn-primary mt-2" (click)="excel()" style="position:absolute; float: left; margin-left: 20px; color:white; font-weight: bold;"> RAPORLA </button>
+      <button type="button" class="btn btn-primary mt-2" (click)="initializeMap()" style="position:absolute; float: left; margin-left: 150px; color:white; font-weight: bold;"> HARİTA </button>
+      <mat-paginator (page) ="pageChanged()" style="display: flex; justify-content: center;" [pageSizeOptions]="[5, 10, 20, 50, 100, 1000]" showFirstLastButtons></mat-paginator>
+    </div>
+</div>
+
+<div id="map"></div>
+
